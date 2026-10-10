@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% block heading %}{{ item.title }}{% endblock %}
+{% block header_actions %}<span class="badge {{ BUCKET_CLASS[item.bucket] }}">{{ item.bucket }}</span><span class="badge {{ MODE_CLASS[item.mode] }}">{{ item.mode }}</span>{% endblock %}
+{% block content %}
+<div class="grid md:grid-cols-3 gap-4">
+<div class="md:col-span-2 space-y-4">
+  <div class="card bg-base-100 shadow"><div class="card-body p-4">
+    <div class="flex items-baseline gap-4"><span class="text-4xl font-bold {{ item.score | score_class }}">{{ item.score }}</span><span class="opacity-60">/ 100</span>
+      <a class="ml-auto link text-sm" href="/company/{{ item.company_id }}">{{ item.company_name }} <i class="mdi mdi-arrow-right"></i></a></div>
+    {% if item.need_summary %}<p class="font-medium mt-2">{{ item.need_summary }}</p><p class="text-sm opacity-80">{{ item.rationale }}</p>{% endif %}
+    {% if item.posting_url %}<p class="mt-2"><a class="link" href="{{ item.posting_url }}" target="_blank" rel="noopener">{{ item.posting_title }} <i class="mdi mdi-open-in-new"></i></a>
+      <span class="text-xs opacity-70">{{ item.source_key }} · {{ item.location or '' }} · {{ item.remote_scope }} · {{ item.employment_type }} · posted {{ item.posted_at | fmt_date }}</span></p>
+      {% if item.tech %}<div class="flex flex-wrap gap-1 mt-1">{% for t in item.tech %}<span class="badge badge-xs badge-outline">{{ t }}</span>{% endfor %}</div>{% endif %}{% endif %}
+  </div></div>
+  <div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Evidence</h2>
+    {% if item.signals %}<ul class="text-sm space-y-1">{% for s in item.signals %}
+      <li><i class="mdi {{ CLASS_ICON.get(s.class, 'mdi-circle-small') }} opacity-60"></i> {{ s.title }}
+        <span class="text-xs opacity-60">({{ s.source_key }}, {{ s.observed_at | fmt_date }}, strength {{ s.strength }})</span>
+        {% if s.source_url %}<a class="link text-xs" href="{{ s.source_url }}" target="_blank" rel="noopener"><i class="mdi mdi-open-in-new"></i></a>{% endif %}
+        {% if s.detail %}<div class="text-xs opacity-70 ml-5">{{ s.detail }}</div>{% endif %}</li>{% endfor %}</ul>
+    {% else %}<p class="text-sm opacity-70">A posting is its own evidence: see the link above.</p>{% endif %}
+  </div></div>
+  <div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Why this score</h2>
+    <div class="flex flex-wrap gap-1 mb-2">{% for k, v in item.dimensions.items() %}<span class="badge badge-sm badge-outline">{{ k }} {{ v }}</span>{% endfor %}</div>
+    <ul class="text-sm list-disc ml-5">{% for r in item.reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+  </div></div>
+</div>
+<div class="space-y-4">
+  <div class="card bg-base-100 shadow"><div class="card-body p-4 text-sm space-y-2">
+    <div><div class="text-xs opacity-60">Sell</div>{{ item.sell or '—' }}</div>
+    <div><div class="text-xs opacity-60">Engagement</div>{{ item.engagement or '—' }}</div>
+    <div><div class="text-xs opacity-60">Value</div>
+      {% if item.value_max_inr %}{{ item.value_min_inr | rupees }} – {{ item.value_max_inr | money(item.value_max, item.value_currency) }}{% if item.value_period %} / {{ item.value_period }}{% endif %}{% else %}not stated{% endif %}</div>
+    <div><div class="text-xs opacity-60">Likely buyer</div>{{ item.buyer_role or '—' }}</div>
+    <div><div class="text-xs opacity-60">Why you</div>{{ item.why_you }}</div>
+    <div><div class="text-xs opacity-60">Recommended action</div><span class="font-medium">{{ item.action }}</span></div>
+  </div></div>
+  <div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Relevant?</h2>{% include "_packet_feedback.html" %}</div></div>
+  <div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Outcome</h2>{% include "_packet_outcomes.html" %}</div></div>
+</div>
+</div>
+{% endblock %}

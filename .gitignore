@@ -1,0 +1,14 @@
+# Secrets
+resources/env/*/.env.yaml
+# fetched pages and feeds, kept for inspection
+raw/
+lake/
+logs/
+api/.venv/
+api/dist/
+api/build/
+**/__pycache__/
+**/*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/

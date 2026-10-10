@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block heading %}Signals{% if cls %} · {{ cls }}{% endif %}{% endblock %}
+{% block header_actions %}<div class="join">{% for c in ('hiring', 'trigger', 'ai', 'technology') %}<a class="join-item btn btn-xs {% if cls == c %}btn-primary{% else %}btn-ghost{% endif %}" href="/signal?cls={{ c }}">{{ c }}</a>{% endfor %}</div>{% endblock %}
+{% block content %}
+<div class="card bg-base-100 shadow"><div class="card-body p-3">
+<table class="table table-xs"><thead><tr><th>Company</th><th>Class</th><th>Signal</th><th class="n">Strength</th><th>Source</th><th>Observed</th><th>Expires</th></tr></thead><tbody>
+{% for s in items %}<tr class="hover"><td><a class="link link-hover" href="/company/{{ s.company_id }}">{{ s.company_name }}</a></td><td><i class="mdi {{ CLASS_ICON.get(s.class, 'mdi-circle-small') }}"></i> {{ s.class }}</td>
+<td>{{ s.title }}<div class="text-xs opacity-60">{{ s.detail }}</div></td><td class="n">{{ s.strength }}</td><td class="text-xs">{{ s.source_key }}</td><td class="text-xs">{{ s.observed_at | fmt_date }}</td><td class="text-xs">{{ s.expires_at | fmt_date }}</td></tr>
+{% else %}<tr><td colspan="7" class="text-center opacity-60 py-6">No live signals.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

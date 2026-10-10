@@ -1,0 +1,13 @@
+{% for o in items %}
+<tr class="hover">
+  <td class="n font-semibold {{ o.score | score_class }}">{{ o.score }}</td>
+  <td><span class="badge badge-sm {{ MODE_CLASS[o.mode] }}">{{ o.mode }}</span></td>
+  <td><a class="link link-hover font-medium" href="/opportunity/{{ o.id }}">{{ o.title }}</a>
+      <div class="text-xs opacity-70">{{ o.sell or o.posting_title or '' }}</div></td>
+  <td class="text-xs">{{ o.region or '—' }}{% if o.remote_scope %} · {{ o.remote_scope }}{% endif %}</td>
+  <td class="n text-xs">{% if o.value_max_inr %}{{ o.value_min_inr | rupees }}–{{ o.value_max_inr | rupees }}{% if o.value_period %}/{{ o.value_period }}{% endif %}{% else %}—{% endif %}</td>
+  <td class="text-xs">{{ (o.posted_at or o.last_scored_at) | fmt_date }}</td>
+</tr>
+{% else %}
+<tr><td colspan="6" class="text-center opacity-60 py-6">Nothing here yet. Run <code>python radar.py run</code>.</td></tr>
+{% endfor %}

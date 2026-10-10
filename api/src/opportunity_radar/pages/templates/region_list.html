@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block heading %}Region gaps{% endblock %}
+{% block header_actions %}<span class="text-xs opacity-70">computed {{ items[0].computed_at | fmt_dt if items else '—' }}</span>{% endblock %}
+{% block content %}
+<div class="text-xs opacity-70 mb-3">Countries where open English engineering roles stay unfilled, companies run shallow in-house IT, and posted rates sit near your floor: where a senior consultant who is cheap for that market sells best. Weights:
+{% for k, w in weights.items() %}<span class="badge badge-ghost badge-xs">{{ DIMENSION_LABEL[k] }} {{ (w * 100) | int }}%</span> {% endfor %}
+Under {{ evidence_floor }} postings is marked thin and capped.</div>
+<div class="card bg-base-100 shadow"><div class="card-body p-3">
+<table class="table table-xs"><thead><tr><th class="n">Score</th><th>Country</th><th>Region</th>
+{% for k in weights %}<th class="n">{{ DIMENSION_LABEL[k] }}</th>{% endfor %}
+<th class="n">Roles</th><th class="n">Companies</th><th class="n">Median open (d)</th><th class="n">Median ₹/h</th><th>IST gap</th></tr></thead><tbody>
+{% for g in items %}<tr class="hover {% if g.thin %}opacity-50{% endif %}">
+<td class="n font-semibold {{ g.score | score_class }}">{{ g.score }}{% if g.thin %} <span class="badge badge-ghost badge-xs">thin</span>{% endif %}</td>
+<td><a class="link link-hover font-medium" href="/region/{{ g.country_code }}">{{ g.name }}</a>{% if not g.english_ok %} <span class="badge badge-ghost badge-xs" title="English is not the usual working language">non-EN</span>{% endif %}</td>
+<td class="text-xs">{{ g.region }}</td>
+{% for k in weights %}<td class="n"><progress class="progress w-14 {% if g.dimensions[k] >= 70 %}progress-success{% elif g.dimensions[k] >= 40 %}progress-warning{% endif %}" value="{{ g.dimensions[k] }}" max="100" title="{{ g.dimensions[k] }}"></progress></td>{% endfor %}
+<td class="n">{{ g.metrics.postings }}</td><td class="n">{{ g.metrics.companies }}</td><td class="n">{{ g.metrics.median_days_open | int }}</td>
+<td class="n">{{ g.metrics.median_rate_inr_hour | rupees if g.metrics.median_rate_inr_hour else '—' }}</td>
+<td class="text-xs">{{ (g.metrics.utc_offset - 5.5) | abs }}h</td></tr>
+{% else %}<tr><td colspan="{{ 9 + weights | length }}" class="text-center opacity-60 py-6">Nothing computed yet. Run <code>python radar.py run</code> (or <code>geo</code> then <code>regions</code>).</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

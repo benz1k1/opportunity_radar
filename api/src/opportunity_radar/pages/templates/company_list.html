@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block heading %}Companies{% endblock %}
+{% block header_actions %}<form class="join"><input name="q" value="{{ q }}" class="input input-xs input-bordered join-item" placeholder="search"><button class="btn btn-xs join-item">Go</button></form>{% endblock %}
+{% block content %}
+<div class="card bg-base-100 shadow"><div class="card-body p-3">
+<table class="table table-xs"><thead><tr><th>Company</th><th>Region</th><th class="n">Open postings</th><th class="n">Live signals</th><th class="n">Needs</th></tr></thead><tbody>
+{% for c in items %}<tr class="hover"><td><a class="link link-hover" href="/company/{{ c.id }}">{{ c.name }}</a>{% if c.is_ai_native %} <span class="badge badge-xs">AI lab</span>{% endif %}</td>
+<td class="text-xs">{{ c.region or '—' }}</td><td class="n">{{ c.open_postings }}</td><td class="n">{{ c.live_signals }}</td><td class="n">{{ c.needs }}</td></tr>
+{% else %}<tr><td colspan="5" class="text-center opacity-60 py-6">No companies yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

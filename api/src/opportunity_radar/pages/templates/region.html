@@ -1,0 +1,43 @@
+{% extends "base.html" %}{% block heading %}{{ gap.name }} · region gap {{ gap.score }}{% if gap.thin %} (thin evidence){% endif %}{% endblock %}
+{% block header_actions %}<a class="link text-xs" href="/region">all regions</a><span class="text-xs opacity-70">computed {{ gap.computed_at | fmt_dt }}</span>{% endblock %}
+{% block content %}
+<div class="grid md:grid-cols-2 gap-4">
+<div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Why this country</h2>
+  <table class="table table-xs"><tbody>
+  {% for k, w in weights.items() %}<tr><td class="opacity-60">{{ DIMENSION_LABEL[k] }} <span class="text-xs">({{ (w * 100) | int }}%)</span></td>
+  <td class="n font-semibold {{ gap.dimensions[k] | score_class }}">{{ gap.dimensions[k] }}</td>
+  <td class="w-40"><progress class="progress w-full {% if gap.dimensions[k] >= 70 %}progress-success{% elif gap.dimensions[k] >= 40 %}progress-warning{% endif %}" value="{{ gap.dimensions[k] }}" max="100"></progress></td></tr>{% endfor %}
+  </tbody></table>
+  <ul class="text-sm mt-2">{% for r in gap.reasons %}<li><i class="mdi mdi-circle-small opacity-60"></i> {{ r }}</li>{% endfor %}</ul>
+</div></div>
+<div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Numbers behind it</h2>
+  <table class="table table-xs"><tbody>
+  <tr><td class="opacity-60">Open English engineering roles</td><td class="n">{{ gap.metrics.postings }}</td></tr>
+  <tr><td class="opacity-60">Companies hiring</td><td class="n">{{ gap.metrics.companies }} ({{ gap.metrics.per_company }} roles each)</td></tr>
+  <tr><td class="opacity-60">Companies with shallow-IT signals</td><td class="n">{{ gap.metrics.shallow_companies }}</td></tr>
+  <tr><td class="opacity-60">Median days open</td><td class="n">{{ gap.metrics.median_days_open }} ({{ (gap.metrics.stale_share * 100) | int }}% stale)</td></tr>
+  <tr><td class="opacity-60">Median posted rate</td><td class="n">{{ gap.metrics.median_rate_inr_hour | rupees if gap.metrics.median_rate_inr_hour else '—' }}/h from {{ gap.metrics.rated_postings }} rated roles</td></tr>
+  <tr><td class="opacity-60">Offshore-open share</td><td class="n">{{ (gap.metrics.offshore_share * 100) | int }}%</td></tr>
+  <tr><td class="opacity-60">Senior / lead share</td><td class="n">{{ (gap.metrics.senior_share * 100) | int }}%</td></tr>
+  <tr><td class="opacity-60">UTC offset · English</td><td class="n">{{ gap.utc_offset }} · {{ 'usual working language' if gap.english_ok else 'not the usual working language' }}</td></tr>
+  </tbody></table>
+</div></div>
+</div>
+{% if opportunities %}
+<div class="card bg-base-100 shadow mt-4"><div class="card-body p-3"><h2 class="card-title text-sm">Opportunities here</h2>
+<table class="table table-xs"><thead><tr><th class="n">Score</th><th>Mode</th><th>Opportunity</th><th>Where</th><th class="n">Value (₹)</th><th>Date</th></tr></thead>
+<tbody>{% with items=opportunities %}{% include "_opportunity_rows.html" %}{% endwith %}</tbody></table></div></div>
+{% endif %}
+<div class="card bg-base-100 shadow mt-4"><div class="card-body p-3"><h2 class="card-title text-sm">Companies, shallowest IT first</h2>
+<table class="table table-xs"><thead><tr><th>Company</th><th class="n">Open roles</th><th>Live signals</th><th>Needs</th></tr></thead><tbody>
+{% for c in companies %}<tr class="hover"><td><a class="link link-hover" href="/company/{{ c.id }}">{{ c.name }}</a>{% if c.website %} <a class="text-xs opacity-60" href="{{ c.website }}" target="_blank" rel="noopener">{{ c.domain }}</a>{% endif %}</td>
+<td class="n">{{ c.open_postings }}</td><td class="text-xs">{{ c.signals | join('; ') }}</td><td class="text-xs">{{ c.needs | join('; ') }}</td></tr>{% endfor %}
+</tbody></table></div></div>
+<div class="card bg-base-100 shadow mt-4"><div class="card-body p-3"><h2 class="card-title text-sm">Open roles, longest unfilled first</h2>
+<table class="table table-xs"><thead><tr><th>Title</th><th>Company</th><th>Family</th><th>Location</th><th>Remote</th><th>Type</th><th class="n">Days open</th><th class="n">Rate</th></tr></thead><tbody>
+{% for p in postings %}<tr class="hover"><td><a class="link link-hover" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a></td>
+<td><a class="link link-hover" href="/company/{{ p.company_id }}">{{ p.company_name }}</a></td><td>{{ p.family }}</td><td class="text-xs">{{ p.location or '' }}</td>
+<td class="text-xs">{{ p.remote_scope }}</td><td class="text-xs">{{ p.employment_type }}</td><td class="n">{{ p.days_open | int }}</td>
+<td class="n text-xs">{% if p.rate_max or p.rate_min %}{{ (p.rate_max or p.rate_min) | num }} {{ p.rate_currency }}/{{ p.rate_period }}{% else %}—{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

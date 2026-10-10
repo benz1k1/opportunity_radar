@@ -1,0 +1,2 @@
+recursive-include src/opportunity_radar/pages/templates *.html
+recursive-include src/opportunity_radar/pages/static *

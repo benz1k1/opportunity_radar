@@ -1,0 +1,6 @@
+key,kind,region,label,config
+remotive,remotive,global,Remotive remote jobs API,"{""url"": ""https://remotive.com/api/remote-jobs"", ""categories"": [""software-dev"", ""data"", ""devops""]}"
+arbeitnow,arbeitnow,eu,Arbeitnow job board API,"{""url"": ""https://www.arbeitnow.com/api/job-board-api""}"
+frankfurter,fx,global,Frankfurter ECB reference rates,"{""url"": ""https://api.frankfurter.app/latest""}"
+techcrunch_venture,rss,global,TechCrunch venture feed (funding headlines),"{""url"": ""https://techcrunch.com/category/venture/feed/"", ""region"": ""us""}"
+inc42_funding,rss,in,Inc42 feed (Indian startup funding),"{""url"": ""https://inc42.com/feed/"", ""region"": ""in""}"

@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block heading %}{{ company.name }}{% endblock %}
+{% block header_actions %}{% if company.website %}<a class="link text-xs" href="{{ company.website }}" target="_blank" rel="noopener">{{ company.domain }}</a>{% endif %}{% endblock %}
+{% block content %}
+<div class="grid md:grid-cols-2 gap-4">
+<div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Company DNA</h2>
+  <table class="table table-xs"><tbody>
+  <tr><td class="opacity-60">Region</td><td>{{ company.region or '—' }}</td></tr><tr><td class="opacity-60">Industry</td><td>{{ company.industry or '—' }}</td></tr>
+  {% for f in facts %}<tr><td class="opacity-60">{{ f.fact_type }} / {{ f.key }}</td><td>{{ f.value }} <span class="text-xs opacity-50">{{ f.source_key }}, {{ f.observed_at | fmt_date }}</span></td></tr>{% endfor %}
+  </tbody></table></div></div>
+<div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Signals</h2>
+  <ul class="text-sm">{% for s in signals %}<li><i class="mdi {{ CLASS_ICON.get(s.class, 'mdi-circle-small') }} opacity-60"></i> {{ s.title }} <span class="text-xs opacity-50">{{ s.observed_at | fmt_date }} → {{ s.expires_at | fmt_date }}</span></li>{% else %}<li class="opacity-60">none</li>{% endfor %}</ul>
+  <h2 class="card-title text-sm mt-3">Needs</h2>
+  <ul class="text-sm">{% for n in needs %}<li><span class="badge badge-xs {% if n.status == 'active' %}badge-primary{% elif n.status == 'emerging' %}badge-info badge-outline{% else %}badge-ghost{% endif %}">{{ n.status }}</span> {{ n.summary }} <span class="text-xs opacity-60">{{ n.detected_by }}</span></li>{% else %}<li class="opacity-60">none</li>{% endfor %}</ul>
+  <h2 class="card-title text-sm mt-3">Opportunities</h2>
+  <ul class="text-sm">{% for o in opportunities %}<li><span class="font-semibold {{ o.score | score_class }}">{{ o.score }}</span> <a class="link link-hover" href="/opportunity/{{ o.id }}">{{ o.title }}</a> <span class="badge badge-xs {{ BUCKET_CLASS[o.bucket] }}">{{ o.bucket }}</span></li>{% else %}<li class="opacity-60">none</li>{% endfor %}</ul>
+</div></div>
+</div>
+<div class="card bg-base-100 shadow mt-4"><div class="card-body p-3"><h2 class="card-title text-sm">Postings</h2>
+<table class="table table-xs"><thead><tr><th>Title</th><th>Family</th><th>Location</th><th>Remote</th><th>Type</th><th>Tech</th><th>Posted</th><th>Status</th></tr></thead><tbody>
+{% for p in postings %}<tr class="{% if p.closed_at %}opacity-50{% endif %}"><td><a class="link link-hover" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>{% if not p.is_english %} <span class="badge badge-xs badge-ghost">non-English</span>{% endif %}</td>
+<td>{{ p.family }}</td><td class="text-xs">{{ p.location or '' }}</td><td class="text-xs">{{ p.remote_scope }}</td><td class="text-xs">{{ p.employment_type }}</td>
+<td class="text-xs">{{ p.tech | join(', ') }}</td><td class="text-xs">{{ p.posted_at | fmt_date }}</td><td class="text-xs">{{ 'closed ' ~ (p.closed_at | fmt_date) if p.closed_at else 'open' }}</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

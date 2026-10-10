@@ -1,0 +1,7 @@
+<div id="feedback" class="flex items-center gap-2 flex-wrap">
+  <form hx-post="/opportunity/{{ item.id }}/feedback" hx-target="#feedback" hx-swap="outerHTML" class="contents">
+    <input type="hidden" name="verdict" value="relevant"><button class="btn btn-xs btn-success">Relevant</button></form>
+  <form hx-post="/opportunity/{{ item.id }}/feedback" hx-target="#feedback" hx-swap="outerHTML" class="contents">
+    <input type="hidden" name="verdict" value="not_relevant"><button class="btn btn-xs btn-ghost">Not relevant</button></form>
+  {% for f in item.feedback %}<span class="badge badge-sm {% if f.verdict == 'relevant' %}badge-success{% else %}badge-ghost{% endif %}">{{ f.verdict }} · {{ f.created_at | fmt_date }}</span>{% endfor %}
+</div>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block heading %}Profile · {{ profile.name }}{% endblock %}
+{% block content %}
+<div class="grid md:grid-cols-2 gap-4">
+<div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Preferences (rates in ₹ per hour)</h2>
+<form method="post" action="/profile" class="grid grid-cols-2 gap-2 text-sm">
+  <label class="form-control"><span class="label-text text-xs">Rate floor ₹/h</span><input name="rate_floor" type="number" step="1" value="{{ profile.rate_floor_inr_hour | int }}" class="input input-sm input-bordered"></label>
+  <label class="form-control"><span class="label-text text-xs">Rate target ₹/h</span><input name="rate_target" type="number" step="1" value="{{ profile.rate_target_inr_hour | int }}" class="input input-sm input-bordered"></label>
+  <label class="form-control"><span class="label-text text-xs">Seniority</span><select name="seniority" class="select select-sm select-bordered">{% for s in ('junior', 'mid', 'senior', 'lead') %}<option value="{{ s }}" {% if profile.seniority == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label>
+  <label class="form-control"><span class="label-text text-xs">Domains (comma-separated)</span><input name="domains" value="{{ profile.domains | join(', ') }}" class="input input-sm input-bordered"></label>
+  <label class="label cursor-pointer justify-start gap-2"><input type="checkbox" name="remote_only" value="true" class="checkbox checkbox-sm" {% if profile.remote_only %}checked{% endif %}><span class="label-text">Remote only</span></label>
+  <label class="label cursor-pointer justify-start gap-2"><input type="checkbox" name="open_to_fulltime" value="true" class="checkbox checkbox-sm" {% if profile.open_to_fulltime %}checked{% endif %}><span class="label-text">Open to full-time</span></label>
+  <div class="col-span-2"><button class="btn btn-sm btn-primary">Save</button> <span class="text-xs opacity-60">then <code>python radar.py score</code> to re-rank</span></div>
+</form></div></div>
+<div class="card bg-base-100 shadow"><div class="card-body p-4"><h2 class="card-title text-sm">Capability graph</h2>
+<table class="table table-xs"><thead><tr><th>Skill</th><th>Under</th><th class="n">Confidence</th><th class="n">Years</th><th>Aliases</th><th></th></tr></thead><tbody>
+{% for s in skills %}<tr><td class="{% if s.parent_id %}pl-6{% else %}font-medium{% endif %}">{{ s.name }}</td><td class="text-xs opacity-60">{{ s.parent_name or '' }}</td><td class="n">{{ s.confidence }}</td><td class="n">{{ s.years }}</td><td class="text-xs opacity-60">{{ s.aliases | join(', ') }}</td>
+<td><form method="post" action="/profile/skill/{{ s.id }}/delete"><button class="btn btn-ghost btn-xs" title="remove"><i class="mdi mdi-close"></i></button></form></td></tr>{% endfor %}
+</tbody></table>
+<form method="post" action="/profile/skill" class="flex flex-wrap gap-2 items-end mt-2 text-sm">
+  <input name="name" placeholder="skill" required class="input input-xs input-bordered">
+  <input name="parent" placeholder="under (optional)" class="input input-xs input-bordered">
+  <input name="confidence" type="number" step="0.05" min="0" max="1" value="0.7" class="input input-xs input-bordered w-20" title="confidence">
+  <input name="years" type="number" step="0.5" min="0" value="1" class="input input-xs input-bordered w-16" title="years">
+  <input name="aliases" placeholder="aliases, comma-separated" class="input input-xs input-bordered flex-grow">
+  <button class="btn btn-xs btn-primary">Add</button>
+</form></div></div>
+</div>
+{% endblock %}

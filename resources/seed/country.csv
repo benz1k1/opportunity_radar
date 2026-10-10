@@ -1,0 +1,64 @@
+code,name,region,utc_offset,english_ok
+US,United States,us,-5,true
+CA,Canada,us,-5,true
+MX,Mexico,latam,-6,false
+BR,Brazil,latam,-3,false
+AR,Argentina,latam,-3,false
+CO,Colombia,latam,-5,false
+CL,Chile,latam,-4,false
+GB,United Kingdom,uk,0,true
+IE,Ireland,uk,0,true
+DE,Germany,eu,1,false
+FR,France,eu,1,false
+NL,Netherlands,eu,1,true
+BE,Belgium,eu,1,false
+CH,Switzerland,eu,1,false
+AT,Austria,eu,1,false
+ES,Spain,eu,1,false
+PT,Portugal,eu,0,false
+IT,Italy,eu,1,false
+PL,Poland,eu,1,false
+CZ,Czechia,eu,1,false
+HU,Hungary,eu,1,false
+RO,Romania,eu,2,false
+BG,Bulgaria,eu,2,false
+GR,Greece,eu,2,false
+HR,Croatia,eu,1,false
+RS,Serbia,eu,1,false
+UA,Ukraine,eu,2,false
+SE,Sweden,eu,1,true
+DK,Denmark,eu,1,true
+NO,Norway,eu,1,true
+FI,Finland,eu,2,true
+EE,Estonia,eu,2,true
+LV,Latvia,eu,2,false
+LT,Lithuania,eu,2,false
+TR,Türkiye,eu,3,false
+IL,Israel,gulf,2,true
+AE,United Arab Emirates,gulf,4,true
+SA,Saudi Arabia,gulf,3,true
+QA,Qatar,gulf,3,true
+BH,Bahrain,gulf,3,true
+KW,Kuwait,gulf,3,true
+OM,Oman,gulf,4,true
+EG,Egypt,africa,2,false
+NG,Nigeria,africa,1,true
+KE,Kenya,africa,3,true
+ZA,South Africa,africa,2,true
+IN,India,in,5.5,true
+PK,Pakistan,in,5,true
+BD,Bangladesh,in,6,true
+LK,Sri Lanka,in,5.5,true
+SG,Singapore,apac,8,true
+MY,Malaysia,apac,8,true
+ID,Indonesia,apac,7,false
+TH,Thailand,apac,7,false
+VN,Vietnam,apac,7,false
+PH,Philippines,apac,8,true
+HK,Hong Kong,apac,8,true
+TW,Taiwan,apac,8,false
+CN,China,apac,8,false
+JP,Japan,jp,9,false
+KR,South Korea,apac,9,false
+AU,Australia,apac,10,true
+NZ,New Zealand,apac,12,true

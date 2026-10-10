@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block heading %}Opportunities{% if bucket %} · {{ bucket }}{% endif %}{% if mode %} · {{ mode }}{% endif %}{% endblock %}
+{% block header_actions %}
+<div class="join">{% for m in ('client', 'contract', 'career') %}<a class="join-item btn btn-xs {% if mode == m %}btn-primary{% else %}btn-ghost{% endif %}" href="/opportunity?{% if bucket %}bucket={{ bucket }}&{% endif %}mode={{ m }}">{{ m }}</a>{% endfor %}</div>
+{% endblock %}
+{% block content %}
+<div class="card bg-base-100 shadow"><div class="card-body p-3">
+<table class="table table-xs"><thead><tr><th class="n">Score</th><th>Mode</th><th>Opportunity</th><th>Where</th><th class="n">Value (₹)</th><th>Date</th></tr></thead>
+<tbody>{% include "_opportunity_rows.html" %}</tbody></table></div></div>
+{% endblock %}

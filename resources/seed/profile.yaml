@@ -1,0 +1,30 @@
+# The single user profile. Rates are INR per hour (draft §1: rupee is the base currency).
+name: Rishabh Choudhary
+headline: Backend architect and consultant — Java, Python, data engineering
+summary: >
+  Senior backend engineer and architect. Java/Spring, Python, SQL, ETL and data pipelines,
+  microservices, cloud migration. Available for remote contracts worldwide, English only.
+seniority: senior
+years_experience: 15
+country: IN
+timezone: Asia/Kolkata
+rate_floor_inr_hour: 2500
+rate_target_inr_hour: 5000
+remote_only: true
+open_to_fulltime: true
+domains: [fintech, loyalty, martech, logistics, saas]
+skills:
+  - {name: Java, confidence: 0.95, years: 15, aliases: [jvm, kotlin]}
+  - {name: Spring Boot, parent: Java, confidence: 0.9, years: 10, aliases: [spring]}
+  - {name: Microservices, parent: Java, confidence: 0.9, years: 8}
+  - {name: Kafka, parent: Java, confidence: 0.7, years: 4}
+  - {name: PostgreSQL, parent: Java, confidence: 0.85, years: 10, aliases: [postgres, mysql, sql]}
+  - {name: Backend architecture, parent: Java, confidence: 0.9, years: 10, aliases: [architecture, system design]}
+  - {name: Python, confidence: 0.9, years: 8, aliases: [fastapi, django, flask]}
+  - {name: ETL, parent: Python, confidence: 0.85, years: 8, aliases: [data pipelines, data engineering, airflow]}
+  - {name: SQL, parent: Python, confidence: 0.9, years: 15}
+  - {name: Migration, parent: Python, confidence: 0.75, years: 6, aliases: [legacy modernization, cloud migration]}
+  - {name: AWS, confidence: 0.7, years: 6, aliases: [cloud, gcp, azure]}
+  - {name: Docker, parent: AWS, confidence: 0.8, years: 6, aliases: [kubernetes, k8s]}
+  - {name: React, confidence: 0.5, years: 4, aliases: [typescript, frontend]}
+  - {name: LLM integration, confidence: 0.6, years: 1, aliases: [rag, llm, openai, anthropic, ai integration]}

@@ -1,0 +1,15 @@
+# Companies whose public ATS boards are polled. ats: greenhouse | lever | ashby. slug: the board token (verified 2026-10-09).
+name,domain,ats,slug,region,is_ai_native
+Stripe,stripe.com,greenhouse,stripe,us,false
+Figma,figma.com,greenhouse,figma,us,false
+Carta,carta.com,greenhouse,carta,us,false
+Notion,notion.so,ashby,notion,us,false
+Deel,deel.com,ashby,deel,global,false
+Ramp,ramp.com,ashby,ramp,us,false
+Razorpay,razorpay.com,greenhouse,razorpaysoftwareprivatelimited,in,false
+Anthropic,anthropic.com,greenhouse,anthropic,us,true
+Scale AI,scale.com,greenhouse,scaleai,us,true
+PayPay,paypay.ne.jp,greenhouse,paypay,jp,false
+Wise,wise.com,greenhouse,wise,uk,false
+Monzo,monzo.com,greenhouse,monzo,uk,false
+Careem,careem.com,greenhouse,careem,gulf,false
